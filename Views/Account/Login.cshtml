@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Вход";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="fas fa-sign-in-alt"></i> Вход в систему</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Пароль</label>
+                        <input type="password" name="password" class="form-control" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Войти</button>
+                </form>
+                <div class="credentials-hint mt-4">
+                    <p class="mb-1"><i class="fas fa-info-circle"></i> <strong>Тестовые учётные записи:</strong></p>
+                    <p class="mb-1">👑 Администратор: <code>admin@gmail.com</code> / <code>admin</code></p>
+                    <p class="mb-0">📋 Менеджер: <code>manager@gmail.com</code> / <code>manager</code></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

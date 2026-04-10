@@ -1,0 +1,27 @@
+﻿@model IEnumerable<StudentAccounting.Models.Subject>
+@{
+    var course = ViewBag.Course as StudentAccounting.Models.Course;
+}
+
+<div class="card shadow">
+    <div class="card-header bg-success text-white">
+        <h4><i class="fas fa-book"></i> Предметы курса «@course?.Title»</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Название предмета</th><th>Оценки группы</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var subj in Model)
+                {
+                    <tr>
+                        <td>@subj.Name</td>
+                        <td><a asp-action="SubjectGrades" asp-route-subjectId="@subj.Id" class="btn btn-sm btn-warning">Оценки</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a asp-action="Index" class="btn btn-secondary">Назад к списку курсов</a>
+    </div>
+</div>

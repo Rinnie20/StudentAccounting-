@@ -1,0 +1,5 @@
+@model StudentAccounting.Models.ViewModels.EditGradeViewModel
+<div class="card shadow">
+    <div class="card-header bg-primary text-white"><h4>Оценка для @Model.StudentFullName по предмету «@Model.SubjectName»</h4></div><div class="card-body">
+    <form asp-action="EditGrade" method="post"><input type="hidden" asp-for="GradeId" /><div class="mb-3"><label asp-for="Grade" class="form-label"></label><input asp-for="Grade" class="form-control" type="number" step="1" min="2" max="5" /><span asp-validation-for="Grade" class="text-danger"></span></div><button type="submit" class="btn btn-success">Сохранить</button><a asp-action="SubjectGrades" asp-route-subjectId="@Model.GradeId" class="btn btn-secondary">Назад</a></form>
+</div></div>

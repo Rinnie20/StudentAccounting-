@@ -1,0 +1,32 @@
+﻿@model IEnumerable<StudentAccounting.Models.SubjectGrade>
+@{
+    var subject = ViewBag.Subject as StudentAccounting.Models.Subject;
+    var average = ViewBag.AverageGrade;
+}
+
+<div class="card shadow">
+    <div class="card-header bg-danger text-white">
+        <h4><i class="fas fa-chart-line"></i> Оценки студентов по предмету «@subject?.Name»</h4>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info">
+            <strong>Средний балл группы: @average</strong>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Студент</th><th>Оценка</th><th>Действие</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var g in Model)
+                {
+                    <tr>
+                        <td>@g.Student?.LastName @g.Student?.FirstName @g.Student?.MiddleName</td>
+                        <td>@(g.Grade.HasValue? g.Grade.Value.ToString() : "—")</td>
+                        <td><a asp-action="EditGrade" asp-route-studentId="@g.StudentId" asp-route-subjectId="@g.SubjectId" class="btn btn-sm btn-warning">Изменить</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a asp-action="SelectSubject" asp-route-courseId="@subject?.CourseId" class="btn btn-secondary">Назад к предметам</a>
+    </div>
+</div>

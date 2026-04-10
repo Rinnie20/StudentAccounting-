@@ -1,0 +1,59 @@
+﻿@model StudentAccounting.Models.Student
+
+@{
+    double averageGrade = 0;
+    if (Model.SubjectGrades != null && Model.SubjectGrades.Any(g => g.Grade.HasValue))
+    {
+        averageGrade = Model.SubjectGrades.Where(g => g.Grade.HasValue).Average(g => g.Grade.Value);
+    }
+}
+
+<div class="card shadow">
+    <div class="card-header bg-info text-white">
+        <h4><i class="fas fa-user-graduate"></i> Подробная информация о студенте</h4>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-success">
+            <strong>Средний балл студента: @averageGrade.ToString("0.00")</strong>
+        </div>
+        <dl class="row">
+            <dt class="col-sm-3">ФИО</dt>
+            <dd class="col-sm-9">@Model.LastName @Model.FirstName @Model.MiddleName</dd>
+
+            <dt class="col-sm-3">Дата рождения</dt>
+            <dd class="col-sm-9">@Model.DateOfBirth.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">Email</dt>
+            <dd class="col-sm-9">@Model.Email</dd>
+
+            <dt class="col-sm-3">Курс (группа)</dt>
+            <dd class="col-sm-9">@(Model.Course?.Title ?? "—")</dd>
+        </dl>
+
+        @if (Model.SubjectGrades != null && Model.SubjectGrades.Any())
+        {
+            <h5><i class="fas fa-chart-line"></i> Оценки по предметам</h5>
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr><th>Предмет</th><th>Оценка</th><th>Дата выставления</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var sg in Model.SubjectGrades)
+                    {
+                        <tr>
+                            <td>@(sg.Subject?.Name ?? "—")</td>
+                            <td>@(sg.Grade.HasValue? sg.Grade.Value.ToString() : "—")</td>
+                            <td>@(sg.DateGraded?.ToShortDateString() ?? "—")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p class="text-muted">У студента пока нет оценок.</p>
+        }
+
+        <a asp-action="CourseStudents" asp-route-id="@Model.CourseId" class="btn btn-secondary mt-3"><i class="fas fa-arrow-left"></i> Назад к списку студентов курса</a>
+    </div>
+</div>

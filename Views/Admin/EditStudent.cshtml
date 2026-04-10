@@ -1,0 +1,98 @@
+@model StudentAccounting.Models.Student
+@{
+    var courses = ViewBag.Courses as IEnumerable<StudentAccounting.Models.Course>;
+    var originalCourseId = ViewBag.OriginalCourseId as int?;
+    var hasErrors = !ViewData.ModelState.IsValid;
+}
+
+<div class="card shadow">
+    <div class="card-header bg-warning text-dark">
+        <h3><i class="fas fa-edit"></i> Редактирование студента</h3>
+    </div>
+    <div class="card-body">
+        @if (hasErrors)
+        {
+            <div class="alert alert-danger">
+                <strong>Исправьте следующие ошибки:</strong>
+                <div asp-validation-summary="All"></div>
+            </div>
+        }
+
+        <form id="editForm" asp-action="EditStudent" method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" name="originalCourseId" value="@originalCourseId" />
+            
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="MiddleName" class="form-label"></label>
+                <input asp-for="MiddleName" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="DateOfBirth" class="form-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" type="date" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CourseId" class="form-label"></label>
+                <select asp-for="CourseId" class="form-select" id="courseSelect">
+                    <option value="">-- Не выбран --</option>
+                    @if (courses != null)
+                    {
+                        foreach (var c in courses)
+                        {
+                            <option value="@c.Id">@c.Title</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="CourseId" class="text-danger"></span>
+            </div>
+            <div id="passwordDiv" style="display:none;" class="mb-3">
+                <label class="form-label">Пароль администратора (для смены курса)</label>
+                <input type="password" name="adminPassword" class="form-control" placeholder="Введите пароль admin" />
+                <div class="form-text">Подсказка: пароль — <strong>admin</strong></div>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" id="saveBtn" class="btn btn-primary"><i class="fas fa-save"></i> Сохранить</button>
+                <a asp-action="Students" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Назад</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        let originalCourseId = @(originalCourseId?.ToString() ?? "null");
+        let courseSelect = document.getElementById('courseSelect');
+        let passwordDiv = document.getElementById('passwordDiv');
+        
+        function checkCourseChange() {
+            let newCourseId = courseSelect.value ? parseInt(courseSelect.value) : null;
+            if (newCourseId !== originalCourseId && originalCourseId !== null) {
+                passwordDiv.style.display = 'block';
+            } else {
+                passwordDiv.style.display = 'none';
+            }
+        }
+        
+        courseSelect.addEventListener('change', checkCourseChange);
+        checkCourseChange();
+    </script>
+}

@@ -1,0 +1,35 @@
+@model IEnumerable<StudentAccounting.Models.Student>
+
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h4><i class="fas fa-star"></i> Выставление оценок студентам</h4>
+    </div>
+    <div class="card-body">
+        <p class="text-muted">Выберите студента и курс, чтобы выставить или изменить оценку.</p>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Студент</th>
+                        <th>Курс (группа)</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var student in Model)
+                    {
+                        <tr>
+                            <td>@student.LastName @student.FirstName @student.MiddleName</td>
+                            <td>@(student.Course?.Title ?? "—")</td>
+                            <td>
+                                <a asp-action="EditGrade" asp-route-studentId="@student.Id" asp-route-courseId="@student.CourseId" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-pen"></i> Выставить / изменить оценку
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

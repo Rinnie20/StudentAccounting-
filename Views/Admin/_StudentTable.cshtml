@@ -1,0 +1,36 @@
+﻿@model IEnumerable<StudentAccounting.Models.Student>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ФИО</th>
+                <th>Дата рождения</th>
+                <th>Email</th>
+                <th>Курс (группа)</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td>@s.LastName @s.FirstName @s.MiddleName</td>
+                    <td>@s.DateOfBirth.ToShortDateString()</td>
+                    <td>@s.Email</td>
+                    <td>@(s.Course?.Title ?? "—")</td>
+                    <td>
+                        <a asp-action="EditStudent" asp-route-id="@s.Id" class="btn btn-sm btn-warning">
+                            <i class="fas fa-edit"></i> Изменить
+                        </a>
+                        <form asp-action="DeleteStudent" asp-route-id="@s.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Удалить студента?')">
+                                <i class="fas fa-trash-alt"></i> Удалить
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

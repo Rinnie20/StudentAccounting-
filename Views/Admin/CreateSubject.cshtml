@@ -1,0 +1,52 @@
+﻿@model StudentAccounting.Models.Subject
+@{
+    var courses = ViewBag.Courses as IEnumerable<StudentAccounting.Models.Course>;
+    var hasErrors = !ViewData.ModelState.IsValid;
+}
+
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h3><i class="fas fa-plus-circle"></i> Добавление предмета</h3>
+    </div>
+    <div class="card-body">
+        @if (hasErrors)
+        {
+            <div class="alert alert-danger">
+                <strong>Исправьте следующие ошибки:</strong>
+                <div asp-validation-summary="All"></div>
+            </div>
+        }
+        
+        <form asp-action="CreateSubject" method="post">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CourseId" class="form-label"></label>
+                <select asp-for="CourseId" class="form-select">
+                    <option value="">-- Выберите курс --</option>
+                    @if (courses != null)
+                    {
+                        foreach (var c in courses)
+                        {
+                            <option value="@c.Id">@c.Title (Куратор: @c.CuratorName)</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="CourseId" class="text-danger"></span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Сохранить</button>
+                <a asp-action="Subjects" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Назад</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

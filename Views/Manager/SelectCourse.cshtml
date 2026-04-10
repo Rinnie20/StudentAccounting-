@@ -1,0 +1,8 @@
+﻿@model IEnumerable<StudentAccounting.Models.Course>
+<div class="card shadow">
+    <div class="card-header bg-primary text-white"><h4>Выберите курс для работы с оценками</h4></div><div class="card-body">
+    <div class="row">@foreach (var c in Model){
+        <div class="col-md-4 mb-3"><div class="card h-100"><div class="card-body"><h5 class="card-title">@c.Title</h5><p class="card-text">Куратор: @c.CuratorName</p><a asp-action="SelectSubject" asp-route-courseId="@c.Id" class="btn btn-primary">Выбрать</a></div></div></div>
+    }
+</div>
+</div></div>

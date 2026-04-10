@@ -1,0 +1,29 @@
+﻿@model IEnumerable<StudentAccounting.Models.Student>
+@{
+    var course = ViewBag.Course as StudentAccounting.Models.Course;
+}
+
+<div class="card shadow">
+    <div class="card-header bg-info text-white">
+        <h4><i class="fas fa-users"></i> Студенты курса «@course?.Title»</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead>
+                <tr><th>ФИО</th><th>Дата рождения</th><th>Email</th><th>Подробнее</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var s in Model)
+                {
+                    <tr>
+                        <td>@s.LastName @s.FirstName @s.MiddleName</td>
+                        <td>@s.DateOfBirth.ToShortDateString()</td>
+                        <td>@s.Email</td>
+                        <td><a asp-action="StudentDetails" asp-route-id="@s.Id" class="btn btn-sm btn-info">Подробнее</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <a asp-action="Index" class="btn btn-secondary">Назад к списку курсов</a>
+    </div>
+</div>
